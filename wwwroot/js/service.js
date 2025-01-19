@@ -57,9 +57,7 @@
 
     apicall = (url, model) => {
         const _tenantID = this.getTanentID();
-        console.log(_tenantID);
         const _token = localStorage.getItem(`${_tenantID}_jwtToken`);
-        console.log(_token);
 
         if (this.isnullorempty(_token)) {
             console.error('Token is null or empty, redirecting to login.');
@@ -75,7 +73,7 @@
         }).catch(error => {
             if (error.response && error.response.status === 401) {
                 console.log("Unauthorized: Token might be expired");
-                //location.href = `/0/Tenant/HomePage`;
+                location.href = `/0/Tenant/HomePage`;
             } else {
                 console.error('API call error:', error.response);
             }
