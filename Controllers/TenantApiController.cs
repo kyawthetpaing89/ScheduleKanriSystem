@@ -11,6 +11,29 @@ namespace ScheduleKanriSystem.Controllers
     {
         private readonly IGenericRepository<MemberModel> _tenantRepo = repo;
 
+        [HttpPost("tenantcheck")]
+        public async Task<ActionResult<IReadOnlyList<ApiResponseModel>>> TenantCheck(TenantModel tenant)
+        {
+            var parameters = tenant.GetParam_TenantSelect();
+            ApiResponseModel response = await _tenantRepo.ExecAsync("Tenant_Select", parameters, false);
+
+            if (response.StatusCode == 200 && response?.Data is IEnumerable<dynamic> data && data.Any())
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound(new ApiResponseModel
+                {
+                    StatusCode = 404,
+                    Data = new
+                    {
+                        Message = "No Tenants Found!"
+                    }
+                });
+            }
+        }
+
         [HttpPost("tenantprocess")]
         public async Task<ActionResult<IReadOnlyList<ApiResponseModel>>> TenantProcess(MemberModel member)
         {

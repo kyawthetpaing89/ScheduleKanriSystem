@@ -55,7 +55,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Tenant}/{action=HomePage}/{id?}");
+    name: "tenantRoute",
+    pattern: "0/[controller]/{action=HomePage}/{id?}");
+
+app.MapGet("/", () => Results.Redirect("/0/Tenant/HomePage"));
 
 app.Run();
+

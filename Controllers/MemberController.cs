@@ -2,9 +2,10 @@
 
 namespace ScheduleKanriSystem.Controllers
 {
-    [Route("{tenantId}/Member")]
+    [Route("{tenantId}/[controller]")]
     public class MemberController(IConfiguration configuration) : BaseController(configuration)
     {
+        [Route("MemberLogin")]
         public IActionResult MemberLogin()
         {
             return View();
