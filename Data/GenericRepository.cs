@@ -18,7 +18,7 @@ namespace ScheduleKanriSystem.Data
 
             try
             {
-                var result = await connection.ExecuteScalarAsync<object>(
+                var result = await connection.QueryAsync<object>(
                     storeProc,
                     param,
                     transaction: transaction,

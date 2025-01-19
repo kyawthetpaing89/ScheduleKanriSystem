@@ -1,0 +1,19 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>User List</h1>
+<table id="tblMember" class="table table-sm table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>User ID / Name</th>
+            <th></th>
+            <th>Position</th>
+            <th>User Role</th>
+            <th>Register Date & Time</th>
+        </tr>
+    </thead>
+</table>
+
+<script src="/js/memberlist.js?v=@ViewBag.JsVersion"></script>
