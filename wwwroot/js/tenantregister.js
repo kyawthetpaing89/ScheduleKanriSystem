@@ -1,5 +1,7 @@
 ﻿const _service = new Service();
 const _urlTenantProcess = '/api/tenant/tenantprocess';
+const _urlTenantAvailableCheck = '/api/tenant/tenantavailablecheck';
+
 
 const _tenantmodel = [
     { selector: '#txtTenantID', name: "Tenant ID", required: true, model: "TenantID" },
@@ -22,12 +24,37 @@ const config = () => {
 
 const action = () => {
     $('#btnNext').on('click', gotoStep2);
+    $('#btnBack').on('click', gobacktoStep1);
     $('#btnRegister').on('click', registerTenant);
 }
 
+const gobacktoStep1 = () => {
+    $('#divStep2').hide();
+    $('#divStep1').show();
+}
+
 const gotoStep2 = () => {
-    $('#divStep1').hide();
-    $('#divStep2').show();
+
+    if (_service.isnullorempty($('#txtTenantID').val())) {
+        _service.loadtoast('error', 'Tenant ID is required!');
+        return;
+    } else if (_service.isnullorempty($('#txtCompanyName').val())) {
+        _service.loadtoast('error', 'Company is required!');
+        return;
+    }
+
+    const _model = {
+        TenantID: $('#txtTenantID').val(),
+    };
+
+    axios.post(_urlTenantAvailableCheck, _model).then(response => {
+        _service.clearmodel({ fields: _tenantmodel });
+
+        $('#divStep1').hide();
+        $('#divStep2').show();
+    }).catch(error => {
+        _service.loadtoast('error', error.response.data.data.message);
+    });
 }
 
 const registerTenant = () => {

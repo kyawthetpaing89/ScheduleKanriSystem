@@ -10,5 +10,11 @@ namespace ScheduleKanriSystem.Controllers
         {
             return View();
         }
+
+        [Route("MemberList")]
+        public IActionResult MemberList()
+        {
+            return View();
+        }
     }
 }

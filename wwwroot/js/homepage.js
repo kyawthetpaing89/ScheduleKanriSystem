@@ -15,6 +15,12 @@ const action = () => {
 }
 
 const tenantLogin = () => {
+
+    if (_service.isnullorempty($('#txtTenantID').val())) {
+        _service.loadtoast('error', 'Tenant ID is required!');
+        return;
+    }
+
     const _model = {
         TenantID: $('#txtTenantID').val(),
     };
@@ -22,6 +28,6 @@ const tenantLogin = () => {
     axios.post(_urlTenantCheck, _model).then(response => {
         location.href = `/${$('#txtTenantID').val() }/Member/MemberLogin`;
     }).catch(error => {
-        console.log(error.response);
+        _service.loadtoast('error', error.response.data.data.message);
     });
 }

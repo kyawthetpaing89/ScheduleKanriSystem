@@ -28,9 +28,32 @@ namespace ScheduleKanriSystem.Controllers
                     StatusCode = 404,
                     Data = new
                     {
-                        Message = "No Tenants Found!"
+                        Message = "Tenant ID Not Found!"
                     }
                 });
+            }
+        }
+
+        [HttpPost("tenantavailablecheck")]
+        public async Task<ActionResult<IReadOnlyList<ApiResponseModel>>> TenantAvailableCheck(TenantModel tenant)
+        {
+            var parameters = tenant.GetParam_TenantSelect();
+            ApiResponseModel response = await _tenantRepo.ExecAsync("Tenant_Select", parameters, false);
+
+            if (response.StatusCode == 200 && response?.Data is IEnumerable<dynamic> data && data.Any())
+            {
+                return Conflict(new ApiResponseModel
+                {
+                    StatusCode = 409,
+                    Data = new
+                    {
+                        Message = "Tenant ID already exists."
+                    }
+                });
+            }
+            else
+            {
+                return Ok(response);
             }
         }
 

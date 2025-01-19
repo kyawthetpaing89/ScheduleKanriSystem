@@ -23,5 +23,24 @@ namespace ScheduleKanriSystem.Models
 
             return parameters;
         }
+
+        public DynamicParameters GetParam_LoginCheck()
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@TenantID", TenantID);
+            parameters.Add("@Email", Email);
+            parameters.Add("@Password", Password);
+
+            return parameters;
+        }
+
+        public DynamicParameters GetParam_MemberSelect()
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@TenantID", TenantID);
+            parameters.Add("@UserName", UserName);
+
+            return parameters;
+        }
     }
 }

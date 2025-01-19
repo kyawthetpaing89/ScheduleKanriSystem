@@ -11,6 +11,7 @@ namespace ScheduleKanriSystem.Controllers
             return View();
         }
 
+        [Route("CreateTenant")]
         public IActionResult CreateTenant()
         {
             return View();
