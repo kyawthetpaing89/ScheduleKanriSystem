@@ -1,0 +1,36 @@
+﻿body {
+    display: flex;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-box {
+    height: 600px;
+    width: 40%;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.login-input {
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.login-input i {
+    font-size: 30px;
+}
+
+.custom-input {
+    border: none;
+    border-bottom: 1px solid #000;
+    border-radius: 0;
+    outline: none;
+}
+
+.tenant-actionbox{
+    display: flex;
+    justify-content: center;
+}
