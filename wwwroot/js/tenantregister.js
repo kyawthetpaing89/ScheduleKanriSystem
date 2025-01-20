@@ -48,7 +48,7 @@ const gotoStep2 = () => {
     };
 
     axios.post(_urlTenantAvailableCheck, _model).then(response => {
-        _service.clearmodel({ fields: _tenantmodel });
+       // _service.clearmodel({ fields: _tenantmodel });
 
         $('#divStep1').hide();
         $('#divStep2').show();
