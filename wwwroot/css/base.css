@@ -1,3 +1,30 @@
 .v-center{
     vertical-align : middle
 }
+
+.w150 {
+    width: 150px;
+}
+
+.w100{
+    width:100px;
+}
+
+.mr5 {
+    margin-right: 5px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.custom-input {
+    border: none;
+    border-bottom: 1px solid #000;
+    border-radius: 0;
+    outline: none;
+}
+
+.divmain {
+    margin-top: 80px;
+}

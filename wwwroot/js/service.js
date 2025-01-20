@@ -1,4 +1,20 @@
 ﻿class Service {
+    nullcheck = (setting) => {
+        const _fields = setting.fields;
+        return _fields.every((item) => {
+            const _element = $(item.selector);
+            const _value = _element.val()?.trim();
+
+            // Check if element is visible, required, and either undefined, null, or empty
+            if (_element.is(':visible') && item.required && (!_value || _value === "")) {
+                _service.loadtoast('error', `${item.name} is required!`);
+                _element[0].focus();
+                return false; // Stop iteration (invalid case)
+            }
+            return true; // Continue iteration (valid case)
+        });
+    }
+
     getmodel = (setting) => {
         const _fields = setting.fields;
         const obj = {};
@@ -14,13 +30,37 @@
         return obj;
     }
 
+    setmodel = (setting) => {
+        const _fields = setting.fields;
+        _fields.forEach(field => {
+            var value = setting.data[field.model];
+            if (field.isdate === true) {
+                $(field.selector).datepicker('setDate', new Date(value));
+            } else if (field.isradio) {
+                if (value === false) value = "0";
+                else if (value === true) value = "1";
+                $(`input[name="${field.selector}"][value="${value}"]`).prop('checked', true);
+            } else {
+                if (field.ismoney === true) {
+                    if (field.isabsolute === true) {
+                        value = Math.abs(value)
+                    }
+
+                    value = Number(value).toLocaleString(); // Format the number with commas
+                }
+
+                $(field.selector).val(value);
+            }
+        });
+    }
+
     clearmodel = (setting) => {
         setting.fields.forEach(field => {
             const $element = $(field.selector);
 
             if (field.isdate === true) {
                 this.cleardate($element);
-            } else if ($element.is('input[type="text"], input[type="hidden"], textarea')) {
+            } else if ($element.is('input[type="text"],input[type="password"], input[type="hidden"], textarea')) {
                 $element.val('');
             } else if ($element.is('select')) {
                 this.ddldefault($element);  // Ensure this refers to the correct object
@@ -49,6 +89,20 @@
             icon: icon,
             title: message,
         })
+    }
+
+    confirmmessage(message) {
+        return new Promise((resolve, reject) => {
+
+            $('#confirmtext').html(message);
+            $('#confirmmodal').modal('show');
+
+            // Handle confirmation button click
+            $('#confrimok').off('click').on('click', function () {
+                $('#confirmmodal').modal('hide');
+                resolve();
+            });
+        });
     }
 
     isnullorempty = (value) => {
@@ -80,6 +134,31 @@
         });
     }
 
+    uploadapicall = (url, formdata) => {
+        const _tenantID = this.getTanentID();
+        const _token = localStorage.getItem(`${_tenantID}_jwtToken`);
+
+        if (this.isnullorempty(_token)) {
+            console.error('Token is null or empty, redirecting to login.');
+
+            location.href = `/0/Tenant/HomePage`;
+            return;
+        }
+
+        return axios.post(url, formdata, {
+            headers: {
+                'Authorization': `Bearer ${_token}`, // Token authentication
+                'Content-Type': 'multipart/form-data' // Required for file uploads
+            }
+        }).catch(error => {
+            if (error.response) {
+                console.error('Error uploading file:', error.response.data);
+            } else {
+                console.error('Error:', error);
+            }
+        });
+    }
+
     bindtable = (table, config) => {
         this.showtableloading(table);
         return this.apicall(config.url, config.model)
@@ -88,6 +167,7 @@
                 let t1 = table.DataTable($.extend({
                     responsive: true,
                     data: response.data.data,
+                    destroy: true,
                 }, config));
 
                 return t1;
