@@ -12,7 +12,13 @@ const config = () => {
 }
 
 const action = () => {
+    $('#btnNewMember').on('click', () => loadMember('New'));
+    $('#btnBack').on('click', goBack);
+}
 
+const goBack = () => {
+    $('#divEntry').hide();
+    $('#divList').show();
 }
 
 const loadMemberList = () => {
@@ -42,4 +48,25 @@ const loadMemberList = () => {
         .then(r1 => {
             tblMember = r1;
         });
+}
+
+const loadMember = (mode, event) => {
+    $('#hfMode').val(mode);
+
+    let row;
+    if (event) {
+        row = tblMember.row($(event.target).closest('tr')).data();
+    }
+
+    switch (mode) {
+        case 'New':
+            $('#lblTitle').text('Member Registration');
+            break;
+        case 'Edit':
+            $('#lblTitle').text('Member Edit');
+            break;
+    }
+
+    $('#divEntry').show();
+    $('#divList').hide();
 }
