@@ -10,7 +10,7 @@ const _tenantmodel = [
     { selector: '#txtPassword', name: "Password", required: true, model: "Password" },
     { selector: '#txtName', name: "User Name", required: true, model: "UserName" },
     { selector: '#ddlPosition', name: "Position", model: "Position" },
-    { selector: '#txtMobileNo', name: "Mobile Number", required: true, model: "MobileNo" },
+    { selector: '#txtMobileNo', name: "Mobile Number", required: true, model: "MobileNumber" },
 ];
 
 $(() => {
