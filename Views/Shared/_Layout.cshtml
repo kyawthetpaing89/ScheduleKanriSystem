@@ -24,18 +24,46 @@
 @*     <link rel="stylesheet" href="/assets/css/demo.css" /> *@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+    <style>
+        .ctner {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Space between elements */
+        }
+
+        .logoo {
+            font-size: 36px; /* Size for "K||" */
+            color: #00bfff; /* Light blue color */
+            font-weight: bold;
+        }
+
+        .text-group {
+            line-height: 1.5;
+        }
+
+        .main-text {
+            font-size: 18px; /* Main text size */
+            color: #00bfff !important;
+        }
+
+        .sub-text {
+            font-size: 18px; /* Subtext size */
+            color: #00bfff; /* Light blue color */
+        }
+    </style> 
 </head>
 <body>
     <div class="wrapper">
         <div class="sidebar" data-background-color="dark">
             <div class="sidebar-logo">
                 <div class="logo-header" data-background-color="dark">
-                    <a href="#" class="logo">
-                        <img src="/assets/img/kaiadmin/logo_light.png"
-                             alt="navbar brand"
-                             class="navbar-brand"
-                             style="height:70px !important" />
-                    </a>
+                    <div class="ctner">
+                        <div class="logoo">K||</div>
+                        <div class="text-group">
+                            <div class="main-text">スケジュール</div>
+                            <div class="sub-text">管理パネル</div>
+                        </div>
+                    </div>
                     <div class="nav-toggle">
                         <button class="btn btn-toggle toggle-sidebar">
                             <i class="gg-menu-right"></i>
@@ -52,25 +80,7 @@
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
-        @*                 <li class="nav-item active">
-                            <a data-bs-toggle="collapse"
-                               href="#dashboard"
-                               class="collapsed"
-                               aria-expanded="false">
-                                <i class="fas fa-home"></i>
-                                <p>Dashboard</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="dashboard">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a href="#">
-                                            <span class="sub-item">Dashboard 1</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li> *@
+        
                         <li class="nav-section active">
                             <span class="sidebar-mini-icon">
                                 <i class="fa fa-ellipsis-h"></i>
@@ -178,8 +188,7 @@
                                             </div>
                                             <div class="u-text">
                                                 <h4 class="lblUserName"></h4> 
-                                              @*   <a href="profile.html"
-                                                   class="btn btn-xs btn-secondary btn-sm">View Profile</a> *@
+                                        
                                             </div>
                                         </div>
                                     </li>
