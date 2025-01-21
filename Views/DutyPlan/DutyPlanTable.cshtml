@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "DutyPlanTable";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="divList" class="card">
+    <h6 class="card-header"> 2025 年01月 </h6>
+    <div class="card-body">
+        <table id="tblMember" class="table table-sm table-hover table-striped table-bordered w-100">
+            
+        </table>
+    </div>
+</div>
+
+
+<input type="file" id="fileInput" style="display: none;" accept="image/*">
+<input type="hidden" id="hfMode" />
+
+<script src="/js/dutyplantable.js?v=@ViewBag.JsVersion"></script>
+
+

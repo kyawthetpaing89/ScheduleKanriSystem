@@ -11,6 +11,12 @@ namespace ScheduleKanriSystem.Controllers
         {
             return View();
         }
- 
+
+        [Route("DutyPlanTable")]
+        public IActionResult DutyPlanTable()
+        {
+            return View();
+        }
+
     }
 }
