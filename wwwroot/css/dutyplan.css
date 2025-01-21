@@ -79,3 +79,17 @@
     border: none;
     color: white;
 }
+
+#calendarPopup {
+    background-color: ghostwhite;
+    border-radius: 10px;
+}
+
+.table-condensed{
+    width: 100%;
+}
+
+.table-condensed td{
+    padding : 5px !important;
+}
+

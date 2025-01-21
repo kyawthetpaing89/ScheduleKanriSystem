@@ -24,6 +24,16 @@ namespace ScheduleKanriSystem.Controllers
             return Ok(response);
         }
 
+        [Authorize]
+        [HttpPost("dutyplanprocess")]
+        public async Task<ActionResult<IReadOnlyList<ApiResponseModel>>> DutyPlanProcess(DutyPlanModel dutyPlan)
+        {
+            var parameters = dutyPlan.GetParam_DutyPlanProcess();
+            ApiResponseModel response = await _dutyplanRepo.ExecAsync("DutyPlan_Process", parameters, false);
+
+            return Ok(response);
+        }
+
         //private readonly IGenericRepository<MemberModel> _memberRepo = repo;
         //[Authorize]
         //[HttpPost("getdaysofMonth")]
