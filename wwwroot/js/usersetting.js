@@ -20,6 +20,6 @@ const usersettingconfig = () => {
         localStorage.removeItem(`${_tenantID}_ProfilePhoto`);
         localStorage.removeItem(`${_tenantID}_UserRole`);
 
-        location.href = "http://localhost:5263/0/Tenant/HomePage"
+        location.href = "http://localhost:5263/0/Member/MemberLogin".replace("0", _userName); //"http://localhost:5263/0/Tenant/HomePage"
     });
 }

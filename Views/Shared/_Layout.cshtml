@@ -53,17 +53,14 @@
     </style> 
 </head>
 <body>
-    <div class="wrapper">
+    <div class="wrapper" id="sliderWrapper">
         <div class="sidebar" data-background-color="dark">
             <div class="sidebar-logo">
                 <div class="logo-header" data-background-color="dark">
-                    <div class="ctner">
-                        <div class="logoo">K||</div>
-                        <div class="text-group">
-                            <div class="main-text">スケジュール</div>
-                            <div class="sub-text">管理パネル</div>
-                        </div>
-                    </div>
+               
+                    <a href="#" class="logo">
+                        <img src="/assets/img/kaiadmin/logo_light.png" alt="navbar brand" class="navbar-brand" style="height:50px">
+                    </a> 
                     <div class="nav-toggle">
                         <button class="btn btn-toggle toggle-sidebar">
                             <i class="gg-menu-right"></i>
@@ -115,11 +112,11 @@
             <div class="main-header">
                 <div class="main-header-logo">
                     <div class="logo-header" data-background-color="dark">
-                        <a href="index.html" class="logo">
-                            <img src="/assets/img/kaiadmin/logo_light.png"
+                        <a href="#" class="logo">
+                            <img src="/assets/img/kaiadmin/logo_light.png" 
                                  alt="navbar brand"
                                  class="navbar-brand"
-                                 height="20" />
+                                 style="height:50px" />
                         </a>
                         <div class="nav-toggle">
                             <button class="btn btn-toggle toggle-sidebar">
@@ -143,14 +140,14 @@
 
                         <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                             <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
-                                <a class="nav-link dropdown-toggle"
+                            @*     <a class="nav-link dropdown-toggle"
                                    data-bs-toggle="dropdown"
                                    href="#"
                                    role="button"
                                    aria-expanded="false"
                                    aria-haspopup="true">
                                     <i class="fa fa-search"></i>
-                                </a>
+                                </a> *@
                                 <ul class="dropdown-menu dropdown-search animated fadeIn">
                                     <form class="navbar-left navbar-form nav-search">
                                         <h5 class="title" id="lblTitle">Schedule Management System</h5>
@@ -174,7 +171,7 @@
                                              class="avatar-img rounded-circle imgmyprofile" />
                                     </div>
                                     <span class="profile-username">
-                                        <span class="op-7">Hi,</span>
+                                        @* <span class="op-7">Hi,</span> *@
                                         <span class="fw-bold lblUserName"></span>
                                     </span>
                                 </a>
@@ -224,7 +221,7 @@
         <!--   Core JS Files   -->
         <script src="/assets/js/core/jquery-3.7.1.min.js"></script>
         <script src="/assets/js/core/popper.min.js"></script>
-@*         <script src="/assets/js/core/bootstrap.min.js"></script> *@
+
 
         <script src="/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
@@ -238,8 +235,8 @@
 
         <script src="/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
 
-        <script src="/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-        <script src="/assets/js/plugin/jsvectormap/world.js"></script>
+     @*    <script src="/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+        <script src="/assets/js/plugin/jsvectormap/world.js"></script> *@
 
         <script src="/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
@@ -250,8 +247,8 @@
  *@
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-            @* <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script> *@
+@*         <script src="https://cdn.jsdelivr.net/npm/bootstrapf/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+ *@            @* <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script> *@
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
         @* 
@@ -436,6 +433,6 @@
 
     <script src="/js/usersetting.js?v=@ViewBag.JsVersion"></script>
     <script src="/js/navigation.js?v=@ViewBag.JsVersion"></script>
-
+            <script src="/assets/js/core/bootstrap.min.js"></script>
 </body>
 </html>

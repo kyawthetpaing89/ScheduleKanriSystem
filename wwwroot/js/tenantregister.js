@@ -25,7 +25,7 @@ const config = () => {
 const action = () => {
     $('#btnNext').on('click', gotoStep2);
     $('#btnBack').on('click', gobacktoStep1);
-    $('#btnRegister').on('click', registerTenant);
+    $('#btnRegister').on('click', registerTenant);  
 }
 
 const gobacktoStep1 = () => {
@@ -61,6 +61,13 @@ const registerTenant = () => {
     const _model = _service.getmodel({ fields: _tenantmodel });
 
     axios.post(_urlTenantProcess, _model).then(response => {
-        console.log(response);
+       
+        setTimeout(function () { 
+            location.href = "/0/Tenant/HomePage";
+
+        }, 3000);
+        _service.loadtoast('success', `Saved Successfully!`);
+
+       
     })
 }
