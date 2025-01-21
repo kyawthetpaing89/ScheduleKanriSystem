@@ -226,4 +226,8 @@
         var formattedDate = moment(value).format('YYYY-MM-DD HH:mm:ss');
         return formattedDate;
     }
+
+    getCurrentMonth = () => {
+        return String(new Date().getMonth() + 1).padStart(2, '0');
+    }
 }
