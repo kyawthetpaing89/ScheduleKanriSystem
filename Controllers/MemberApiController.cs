@@ -27,7 +27,7 @@ namespace ScheduleKanriSystem.Controllers
                 var userData = data.FirstOrDefault();
                 var tenantId = userData?.TenantID;
                 var userId = userData?.UserID;
-
+                var userRole= userData?.UserRole;
                 var token = _jwtService.GenerateToken(tenantId + '-' + userId,tenantId);
                 return Ok(new
                 {

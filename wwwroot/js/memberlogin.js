@@ -29,6 +29,10 @@ const login = () => {
         localStorage.setItem(`${_tenantID}_userID`, response.data.data.UserID);
         localStorage.setItem(`${_tenantID}_userName`, response.data.data.UserName);
         localStorage.setItem(`${_tenantID}_ProfilePhoto`, response.data.data.ProfileImage);
+        console.log(response.data.data.UserRole);
+
+        localStorage.setItem(`${_tenantID}_UserRole`, response.data.data.UserRole);
+
 
         location.href = `/${_tenantID}/Member/MemberList`;
     }).catch(error => {
