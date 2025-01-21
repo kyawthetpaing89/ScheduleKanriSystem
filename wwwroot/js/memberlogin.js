@@ -28,7 +28,7 @@ const login = () => {
         localStorage.setItem(`${_tenantID}_jwtToken`, response.data.token);
         localStorage.setItem(`${_tenantID}_userID`, response.data.data.UserID);
         localStorage.setItem(`${_tenantID}_userName`, response.data.data.UserName);
-        localStorage.setItem(`${_tenantID}_ProfilePhoto`, response.data.data.ProfilePhoto);
+        localStorage.setItem(`${_tenantID}_ProfilePhoto`, response.data.data.ProfileImage);
 
         location.href = `/${_tenantID}/Member/MemberList`;
     }).catch(error => {

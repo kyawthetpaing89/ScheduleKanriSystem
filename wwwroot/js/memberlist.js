@@ -26,7 +26,6 @@ const config = () => {
 }
 
 const action = () => {
-    $('#btnNewMember').on('click', () => loadMember('New'));
     $('#btnBack').on('click', goBack);
     $('#btnSave').on('click', saveMember);
     $('#btnDelete').on('click', deleteMember);
@@ -68,9 +67,18 @@ const loadMemberList = () => {
                 
             }
         },
-        { "data": "Position", className: "align-middle" },
-        { "data": "UserRole", className: "align-middle" },
-        { "data": "CreatedDate", className: "text-right align-middle" },
+        { "data": "Position", className: "text-center align-middle" },
+        { "data": "UserRole", className: "text-center align-middle" },
+        {
+            "data": "CreatedDate", className: "text-center align-middle",
+            render: (data, type) => {
+                if (!data) return '';
+                if (type === 'display' || type === 'filter') {
+                    return _service.formatteddate(data);
+                }
+                return data;
+            }
+        },
         {
             "data": null, className: "text-center v-center",
             render: () => {
@@ -82,6 +90,16 @@ const loadMemberList = () => {
     _service.bindtable($('#tblMember'), { buttons: [], columns: _columns, url: _urlGetMember, model: _model })
         .then(r1 => {
             tblMember = r1;
+
+            $('#tblMember_wrapper .dt-buttons').append(
+                `
+                <button id="btnNewMember" class="btn btn-info mb10 mr5">New Member</button>
+                <button id="btnExport" class="btn btn-success mb10 ml10"><i class="bi bi-file-earmark-excel"></i></button>
+                `
+            );
+
+            $('#btnNewMember').off('click').on('click', () => loadMember('New'));
+
         });
 }
 

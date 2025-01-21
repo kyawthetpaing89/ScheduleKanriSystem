@@ -165,9 +165,19 @@
             .then((response) => {
                 this.hidetableloading(table);
                 let t1 = table.DataTable($.extend({
+                    language: {
+                        info: "Total: _TOTAL_ records",
+                        infoFiltered: "(filtered from _MAX_ total records)",
+                        lengthMenu: "Show _MENU_"
+                    },
+                    dom:
+                        "<'row'<'col-sm-12 col-md-4 d-flex tbldivleft align-items-center justify-content-start custom-text'ilf><'col-sm-12 col-md-8 d-flex align-items-center justify-content-end'B>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6 divpaging'p>>",
                     responsive: true,
                     data:  response.data.data,
                     destroy: true,
+                    ordering: false,
                 }, config));
 
                 return t1;
@@ -209,5 +219,11 @@
         let tenantID = parts[1];
 
         return tenantID;
+    }
+
+    formatteddate = (value) => {
+        var date = new Date(value);
+        var formattedDate = moment(value).format('YYYY-MM-DD HH:mm:ss');
+        return formattedDate;
     }
 }
