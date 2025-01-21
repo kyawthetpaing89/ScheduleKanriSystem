@@ -19,10 +19,12 @@ const _membermodel = [
 $(() => {
     config();
     action();
+    
 });
 
 const config = () => {
     loadMemberList();
+    
 }
 
 const action = () => {
@@ -32,15 +34,52 @@ const action = () => {
     $('#imgProfile').on('click', imgProfileClick);
     $('#fileInput').on('change', profileImageChange);
     $('#tblMember').off('click', '.table-edit').on('click', '.table-edit', (event) => loadMember('Edit', event));
-}
+  
 
+}
+const exportExcel = () => {
+    let table = document.getElementById('tblMember');
+     
+    let data = [];
+    let validColumns = [];  
+     
+    let headers = [];
+    let headerRow = table.querySelectorAll('thead tr th');
+    headerRow.forEach((th, colIndex) => {
+        let headerText = th.innerText.trim();
+        if (headerText) {
+            headers.push(headerText);  
+            validColumns.push(colIndex);  
+        }
+    }); 
+    if (headers.length > 0) {
+        data.push(headers);
+    }
+     
+    let rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        let rowData = [];
+        let cells = row.querySelectorAll('td');
+        validColumns.forEach(colIndex => {
+            rowData.push(cells[colIndex]?.innerText.trim() || "");  
+        });
+        data.push(rowData);
+    });
+
+     
+    let worksheet = XLSX.utils.aoa_to_sheet(data);  
+    let workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "UserList");
+    XLSX.writeFile(workbook, ("UserList_" + _service.getTanentID() + "_" + _service.formatteddate(new Date())).replace(' ','') + ".xlsx");
+     
+}
 const goBack = () => {
     $('#divEntry').hide();
     $('#divList').show();
 
     loadMemberList();
 }
-
+ 
 const loadMemberList = () => {
     const _model = {
         TenantID: _service.getTanentID(),
@@ -82,7 +121,7 @@ const loadMemberList = () => {
         {
             "data": null, className: "text-center v-center",
             render: () => {
-                return `<i class="table-icon bi bi-pencil-square table-edit"></i>`
+                return `<button class=""><i class="table-icon bi bi-chevron-right table-edit"></i></button>`
             }
         }
     ];
@@ -94,13 +133,15 @@ const loadMemberList = () => {
             $('#tblMember_wrapper .dt-buttons').append(
                 `
                 <button id="btnNewMember" class="btn btn-info mb10 mr5">New Member</button>
-                <button id="btnExport" class="btn btn-success mb10 ml10"><i class="bi bi-file-earmark-excel"></i></button>
+
+                <button id="btnExport1" class="btn btn-success mb10 ml10"> <i class="bi bi-box-arrow-right"></i> Export</button>
                 `
-            );
-
+            ); 
             $('#btnNewMember').off('click').on('click', () => loadMember('New'));
-
+            $('#btnExport1').on('click', exportExcel);
+            
         });
+    $('#dt-search-0').attr('autocomplete', 'off');;
 }
 
 const loadMember = (mode, event) => {
