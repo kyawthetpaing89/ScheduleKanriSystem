@@ -166,7 +166,7 @@
                 this.hidetableloading(table);
                 let t1 = table.DataTable($.extend({
                     responsive: true,
-                    data: response.data.data,
+                    data:  response.data.data,
                     destroy: true,
                 }, config));
 

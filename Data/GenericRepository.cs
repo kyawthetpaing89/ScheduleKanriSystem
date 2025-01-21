@@ -33,6 +33,20 @@ namespace ScheduleKanriSystem.Data
                     Data = result
                 };
             }
+            catch (SqlException ex)
+            {
+                transaction?.Rollback();
+                return new ApiResponseModel
+                {
+                    StatusCode = 500,
+                    Data = new
+                    {
+                        Message = ex.Message
+                    }
+                };
+                //_logger.LogError(ex, "SQL error occurred: {Message}", ex.Message);
+                 // Re-throw the exception after logging
+            } 
             catch (Exception ex)
             {
                 transaction?.Rollback();

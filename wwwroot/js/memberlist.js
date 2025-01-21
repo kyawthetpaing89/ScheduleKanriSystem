@@ -49,13 +49,15 @@ const loadMemberList = () => {
 
     const _columns = [
         {
-            "data": null, className: "text-center align-middle",
+            "data": null,
+            className: "text-center align-middle",
             render: (data, type, row) => {
                 return `<span>${row.UserID}</span><br><span>${row.UserName}</span>`;
             }
         },
         {
-            "data": "ProfileImage", className: "text-center align-middle",
+            "data": "ProfileImage",
+            className: "text-center align-middle",
             render: (data, type, row) => {
                 const currentDatetime = new Date().toISOString();
                 if (data) {
