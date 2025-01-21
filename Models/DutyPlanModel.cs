@@ -6,9 +6,12 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 namespace ScheduleKanriSystem.Models
 {
     public class DutyPlanModel  : BaseModel
-    { 
+    {
+        public int DutyID { get; set; }
         public string? YYYY { get; set; }
         public string? MM { get; set; }
+        public string? UserID { get; set; }
+        public string? DutyDate { get; set; }
 
         public DynamicParameters GetParam_DutyPlanSelect()
         {
@@ -16,9 +19,23 @@ namespace ScheduleKanriSystem.Models
             parameters.Add("@TenantID", TenantID);
             parameters.Add("@YYYY", YYYY);
             parameters.Add("@MM", MM);
+            parameters.Add("@UserID", UserID);
 
             return parameters;
         }
+
+        public DynamicParameters GetParam_DutyPlanProcess()
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Mode", Mode);
+            parameters.Add("@TenantID", TenantID);
+            parameters.Add("@DutyDate", DutyDate);
+            parameters.Add("@UserID", UserID);
+            parameters.Add("@CreatedBy", CreatedBy);
+
+            return parameters;
+        }
+
         //public string UserProfile { get; set; } 
         //public string Name_Role { get; set; }
         //public string MultiDate { get; set; }

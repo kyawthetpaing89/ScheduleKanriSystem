@@ -1,6 +1,7 @@
 ﻿const _service = new Service();
 
 const _urlGetDutyPlan = '/api/dutyplan/getdutyplan';
+const _urlDutyProcess = '/api/dutyplan/dutyplanprocess';
 
 let currentYear = new Date().getFullYear();
 let currentMonth = new Date().getMonth() + 1;
@@ -91,8 +92,7 @@ const loadTableBody = () => {
     }
 
     _service.apicall(_urlGetDutyPlan, _model).then(response => {
-        const _data = response.data.data
-
+        const _data = response.data.data;
         const _distinctData = [...new Set(_data.map(item => item.UserID))]
             .map(userID => {
                 return _data.find(item => item.UserID === userID);
@@ -100,11 +100,12 @@ const loadTableBody = () => {
             .sort((a, b) => a.UserName.localeCompare(b.UserName));
 
         _distinctData.forEach(distinctuser => {
-            let bodyRow = `<tr><td>
+            let bodyRow = `<tr id="tr-${distinctuser.UserID}"><td>
                             <div class="td-userinfo">
+                                <input type="hidden" value="${distinctuser.UserID}">
                                 <img src="/images/profile/${distinctuser.ProfileImage}" />
                                 ${distinctuser.UserName}
-                                <button class="btn btn-sm"><i class="bi bi-calendar3"></i></button>
+                                <button onclick="showCalendar(this)" data-uid="${distinctuser.UserID}" class="btnCalendar btn btn-sm"><i class="bi bi-calendar3"></i></button>
                             </div></td>`;
 
             const _filteredData = _data.filter(item => item.UserID === distinctuser.UserID);
@@ -113,9 +114,9 @@ const loadTableBody = () => {
             for (let i = 1; i <= _totalDays; i++) {
                 const hasDuty = _filteredData.some(user => user.DutyDay === i); // check if user has duty on that day
 
-                let td = `<td></td>`;
+                let td = `<td class="td-d${i}"></td>`;
                 if (hasDuty) {
-                    td = `<td><div class="duty"></div></td>`;
+                    td = `<td class="td-d${i}"><div class="duty duty-d${i}"></div></td>`;
                 }
 
                 bodyRow += td;
@@ -125,5 +126,114 @@ const loadTableBody = () => {
 
             $('#tblDuty tbody').append(bodyRow);
         });
+
+        calcTotalMember();
     });
 }
+
+const showCalendar = (button) => {
+    const _userID = $(button).data('uid');
+    let dutyDates = [];
+    const _tenantID = _service.getTanentID();
+
+    const _model = {
+        TenantID: _tenantID,
+        YYYY: `${currentYear}`,
+        MM: `${currentMonth}`,
+        UserID: _userID,
+    }
+
+    _service.apicall(_urlGetDutyPlan, _model).then(response => {
+        const _data = response.data.data;
+        _data.forEach(user => {
+            dutyDates.push(`${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(user.DutyDay).padStart(2, '0')}`);
+        });
+
+        const startOfMonth = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`;
+        const endOfMonth = new Date(currentYear, currentMonth, 0); // Last day of the current month
+        const formattedEndOfMonth = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(endOfMonth.getDate()).padStart(2, '0')}`;
+
+        const flatpickrInstance = flatpickr(button, {
+            mode: "multiple",
+            dateFormat: "Y-m-d",
+            defaultDate: dutyDates,
+            minDate: startOfMonth, 
+            maxDate: formattedEndOfMonth,
+            onChange: (selectedDates, dateStr, instance) => {
+                const clickedDate = instance.formatDate(instance.latestSelectedDateObj, "Y-m-d");
+
+                let mode;
+                if (dutyDates.includes(clickedDate)) {
+                    mode = 'Delete';
+                } else {
+                    mode = 'New'
+                }
+
+                const _model1 = {
+                    Mode: mode,
+                    TenantID: _tenantID,
+                    DutyDate: clickedDate,
+                    UserID: _userID,
+                    CreatedBy: localStorage.getItem(`${_tenantID}_userID`)
+                }
+                _service.apicall(_urlDutyProcess, _model1).then(response => {
+                    if (response.status === 200) {
+
+                        const _day = instance.latestSelectedDateObj.getDate();
+                        if (mode === 'Delete') {
+                            dutyDates = dutyDates.filter(date => date !== clickedDate); // Remove the date
+
+                            $(`#tr-${_userID} .td-d${_day}`).empty();
+
+                        } else {
+                            dutyDates.push(clickedDate); // Add the date
+
+                            $(`#tr-${_userID} .td-d${_day}`).append(`<div class="duty duty-d${_day}"></div>`);
+                        }
+                        calcTotalMember();
+                        
+                    } else {
+                        _service.loadtoast('error', 'saved failed!');
+                    }
+                });
+            },
+            onReady: (selectedDates, dateStr, instance) => {
+                const calendarContainer = instance.calendarContainer;
+                const closeButton = document.createElement("button");
+                closeButton.textContent = "Close";
+                closeButton.className = "btn btn-secondary flatpickr-close-btn";
+                closeButton.style.margin = "10px";
+                closeButton.onclick = () => {
+                    instance.close();
+                    $('.flatpickr-calendar').hide();
+                };
+                calendarContainer.appendChild(closeButton);
+
+                $('.flatpickr-calendar').show();//to prevent showing twice
+            },
+        });
+
+        // Open Flatpickr programmatically
+        flatpickrInstance.open();
+
+        // Handle click outside to destroy the Flatpickr instance
+        $(document).off('click.flatpickr').on('click.flatpickr', function (e) {
+            if (!$(e.target).closest(button).length && !$(e.target).hasClass('flatpickr-calendar')) {
+                flatpickrInstance.close();
+                $(document).off('click.flatpickr');
+
+                $('.flatpickr-calendar').hide();//to prevent showing twice
+            }
+        });
+    });
+};
+
+const calcTotalMember = () => {
+    const _totalDays = new Date(currentYear, currentMonth, 0).getDate();
+    for (let i = 1; i <= _totalDays; i++) {
+        const _total = $(`.duty-d${i}`).length;
+        $(`.d${i}_totalMember`).text(_total);
+    }
+}
+
+
