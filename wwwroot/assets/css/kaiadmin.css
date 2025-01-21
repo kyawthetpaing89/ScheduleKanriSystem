@@ -127,10 +127,10 @@ h6,
   font-weight: 400; }
 
 p {
-  font-size: 1.07rem;
-  line-height: 1.82;
-  margin-bottom: 1rem;
-  word-break: break-word; }
+    font-size: -0.93rem !important  ;
+    margin-bottom: 1rem;
+    word-break: break-word;
+}
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   line-height: 1.5; }
@@ -840,15 +840,16 @@ body {
   background: rgba(0, 0, 0, 0.16); }
 
 .logo-header {
-  float: left;
-  width: 265px;
-  height: 70px;
-  line-height: 60px;
+ /* float: left;
+  width: 265px;*/
+/*  height: 70px;
+*/  
+line-height: 60px;
   color: #333333;
   z-index: 1001;
   font-size: 17px;
   font-weight: 400;
-  padding-left: 25px;
+  padding-left: 49px;
   padding-right: 25px;
   z-index: 1001;
   display: flex;
