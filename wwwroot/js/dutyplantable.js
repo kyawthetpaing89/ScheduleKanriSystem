@@ -65,7 +65,7 @@ const setYearMonth = (type) => {
 const loadTableHeader = () => {
     const _totalDays = new Date(currentYear, currentMonth, 0).getDate();
 
-    let headerRow1 = '<tr><th rowspan="3">Member : 10</th>';
+    let headerRow1 = '<tr><th rowspan="3">Member : <span id="lblMemberCount"></span></th>';
     for (let i = 1; i <= _totalDays; i++) {
         const date = new Date(currentYear, currentMonth - 1, i);
         const dayOfWeek = date.getDay();
@@ -103,6 +103,8 @@ const loadTableBody = () => {
                 return _data.find(item => item.UserID === userID);
             })
             .sort((a, b) => a.UserName.localeCompare(b.UserName));
+
+        $('#lblMemberCount').html(_distinctData.length);
 
         _distinctData.forEach(distinctuser => {
             let bodyRow = `<tr id="tr-${distinctuser.UserID}"><td>
