@@ -155,6 +155,7 @@ const loadMember = (mode, event) => {
     let row;
     if (event) {
         row = tblMember.row($(event.target).closest('tr')).data();
+        row.CreatedDate = _service.formatteddate(row.CreatedDate);
         _service.setmodel({ fields: _membermodel, data: row });
         $('#imgProfile').attr('src', `/images/profile/${row.ProfileImage}`);
     }
