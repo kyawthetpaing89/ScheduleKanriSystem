@@ -150,8 +150,11 @@ const showCalendar = (button) => {
 
     _service.apicall(_urlGetDutyPlan, _model).then(response => {
         const _data = response.data.data;
+
         _data.forEach(user => {
-            dutyDates.push(`${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(user.DutyDay).padStart(2, '0')}`);
+            if (!_service.isnullorempty(user.DutyDay)) {
+                dutyDates.push(`${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(user.DutyDay).padStart(2, '0')}`);
+            }
         });
 
         const startOfMonth = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`;
