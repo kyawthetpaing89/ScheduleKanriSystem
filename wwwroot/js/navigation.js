@@ -1,10 +1,17 @@
 ﻿
 
-$(() => {
+$(() => { 
     navaction();
 });
-
+ 
 const navaction = () => {
+    if (localStorage.getItem(`${new Service().getTanentID()}_UserRole`) == "admin") {
+        //$('#navUserList').attr('style', 'display: none;');
+        //$('#navCompanyList').attr('style', 'display: none;');
+        $("#navUserList").removeAttr("style");
+        $("#navCompanyList").removeAttr("style");
+
+    }
     $('#navDutyTable').on('click', () => goToNav('DutyPlan/DutyPlanTable'));
     $('#navUserList').on('click', () => goToNav('Member/MemberList'));
 

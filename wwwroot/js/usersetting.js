@@ -9,7 +9,7 @@ const usersettingconfig = () => {
     const _userRole = localStorage.getItem(`${_tenantID}_UserRole`);
     const _currentDatetime = new Date().toISOString();
 
-    $('.lblUserName').html(_userName + '<br>' + _userRole); 
+    $('.lblUserName').html('<span style="color:white;font-size: 15px;text-transform: capitalize;">' + _userName +'</span> <br><span style="font-size: 10px;color:#01bfff;text-transform: capitalize;">' + _userRole +'</span>'); 
     $('.imgmyprofile').attr('src', `/images/profile/${_profilephoto}?v=${_currentDatetime}`);
 
     $('#btnLogout').on('click', () => {

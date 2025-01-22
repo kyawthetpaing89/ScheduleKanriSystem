@@ -26,6 +26,10 @@ const config = () => {
     loadMemberList();
     $('#dt-search-0').val('');
     $('#dt-search-0').attr('autocomplete', 'off');
+
+    if (localStorage.getItem(`${_service.getTanentID()}_UserRole`) == "admin") { 
+        $("#divList").removeAttr('style'); 
+    }
 }
 
 const action = () => {

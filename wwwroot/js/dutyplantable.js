@@ -10,21 +10,17 @@ var tblDuty;
 
 $(() => {
     config();
-    action(); 
+    action();
 });
 
 const config = () => {
-    setYearMonth(); 
-
-    if (localStorage.getItem(`${_service.getTanentID() }_UserRole`) == "user") {
-        $('#navUserList').attr('style', 'display: none;');
-        $('#navCompanyList').attr('style', 'display: none;');
-    }
+    setYearMonth();  
 }
 
 const action = () => {
     $('#btnPrev').on('click', () => setYearMonth('prev'));
     $('#btnNext').on('click', () => setYearMonth('next'));
+    loadMemberCount();
 }
 
 const setYearMonth = (type) => {
@@ -58,14 +54,19 @@ const setYearMonth = (type) => {
     $('#tblDuty').append('<thead></thead>');
     $('#tblDuty').append('<tbody></tbody>');
 
-    loadTableHeader();
+    loadTableHeader(); 
     loadTableBody();
+   
+
 }
+const loadMemberCount = (val) => {
+    $('.lblMemberCount').html("<span style='color:black;text-transform: capitalize;'>Member : </span> <span style='color:#01bfff;'>" + val + "</span>");
+};
 
 const loadTableHeader = () => {
     const _totalDays = new Date(currentYear, currentMonth, 0).getDate();
 
-    let headerRow1 = '<tr><th rowspan="3">Member : 10</th>';
+    let headerRow1 = '<tr><th rowspan="3" class="lblMemberCount">Member : 10</th>';
     for (let i = 1; i <= _totalDays; i++) {
         const date = new Date(currentYear, currentMonth - 1, i);
         const dayOfWeek = date.getDay();
@@ -109,8 +110,8 @@ const loadTableBody = () => {
                             <div class="td-userinfo">
                                 <input type="hidden" value="${distinctuser.UserID}">
                                 <img src="/images/profile/${distinctuser.ProfileImage}" />
-                                ${distinctuser.UserName}
-                                <button onclick="showCalendar(this)" data-uid="${distinctuser.UserID}" class="btnCalendar btn btn-sm"><i class="bi bi-calendar3"></i></button>
+                               <div><span style="text-transform: capitalize;"> ${distinctuser.UserName} </span>  <br> <span style="color:#01bfff; font-size:10px;"> ${distinctuser.UserRole== 'admin'?  'Admin' : ''} </span></div>
+                                <button onclick="showCalendar(this)" data-uid="${distinctuser.UserID}" class="btnCalendar btn btn-sm show-hide-attr"><i class="bi bi-calendar3"></i></button>
                             </div></td>`;
 
             const _filteredData = _data.filter(item => item.UserID === distinctuser.UserID);
@@ -131,12 +132,19 @@ const loadTableBody = () => {
 
             $('#tblDuty tbody').append(bodyRow);
         });
-
+        loadMemberCount(_distinctData.length);
         calcTotalMember();
     });
+ 
+   
 }
 
 const showCalendar = (button) => {
+
+    if (localStorage.getItem(`${_service.getTanentID()}_UserRole`) == "user") {
+        return;
+    }
+
     const _userID = $(button).data('uid');
     let dutyDates = [];
     const _tenantID = _service.getTanentID();
