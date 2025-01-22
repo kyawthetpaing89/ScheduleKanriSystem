@@ -10,11 +10,16 @@ var tblDuty;
 
 $(() => {
     config();
-    action();
+    action(); 
 });
 
 const config = () => {
-    setYearMonth();
+    setYearMonth(); 
+
+    if (localStorage.getItem(`${_service.getTanentID() }_UserRole`) == "user") {
+        $('#navUserList').attr('style', 'display: none;');
+        $('#navCompanyList').attr('style', 'display: none;');
+    }
 }
 
 const action = () => {

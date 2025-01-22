@@ -64,15 +64,14 @@
     </style>
 </head>
 <body>
- 
-
+  
 
     <div class="row login-box">
         <div class="col-6 left" style="background-color: hsl(198.89deg 71.05% 14.9%)">
             <div style="" align="center">
                 <div class="header">スケジュール</div>
                 <div class="subheader">管理パネル</div>
-                <div class="footer" id="pnlCompanyName"> </div>
+                <div class="footer" id="pnlCompanyName" style=" font-size: xxx-large"> </div>
       </div>
 
         </div>
@@ -85,7 +84,7 @@
                 </div>
                 <div class="custom-input-wrapper" style="padding-top:30px">
                     <i style="color:black;" class="bi bi-shield-lock"></i>
-                    <input id="txtPassword" type="text" class="form-control form-control-sm custom-input" placeholder="Password" />
+                    <input  id="txtPassword" type="password" class="form-control form-control-sm custom-input" placeholder="Password" />
                 </div> 
                 <div class="tenant-actionbox" style="    margin-top: 10%; }">
                     <a href="/0/Tenant/HomePage" id="btnBack" class="btn btn-dark" style="margin-right:20px;width: 30%;">Cancel</a>
@@ -104,5 +103,7 @@
 
     <script src="/js/service.js?v=@ViewBag.JsVersion"></script>
     <script src="/js/memberlogin.js?v=@ViewBag.JsVersion"></script>
+   
+
 </body>
 </html>

@@ -57,7 +57,24 @@ const gotoStep2 = () => {
     });
 }
 
-const registerTenant = () => {
+const registerTenant = (event) => {
+    event.preventDefault();
+
+    const email = $('#txtEmail').val();
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(email)) {
+        _service.loadtoast('error', 'Email is invalid!');
+        return;
+    } 
+
+    const phne = $('#txtMobileNo').val();
+    const phonePattern = /^\+?[0-9\s\-().]{7,15}$/;
+    if (!phonePattern.test(phne)) {
+        _service.loadtoast('error', 'PhoneNumber is invalid!');
+        return;
+    } 
+
     const _model = _service.getmodel({ fields: _tenantmodel });
 
     axios.post(_urlTenantProcess, _model).then(response => {

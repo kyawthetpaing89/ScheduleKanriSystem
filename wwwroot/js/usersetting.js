@@ -20,6 +20,16 @@ const usersettingconfig = () => {
         localStorage.removeItem(`${_tenantID}_ProfilePhoto`);
         localStorage.removeItem(`${_tenantID}_UserRole`);
 
-        location.href = "http://localhost:5263/0/Member/MemberLogin".replace("0", _userName); //"http://localhost:5263/0/Tenant/HomePage"
+        location.href = `/${_tenantID}/Member/MemberLogin`;  //+"/Member/MemberLogin";// "http://localhost:5263/0/Member/MemberLogin" ; //"http://localhost:5263/0/Tenant/HomePage"
     });
+}
+function getFirstSectionAfterDomain(url) {
+
+    const urlObj = new URL(url);
+
+    const path = urlObj.pathname;
+
+    const firstPart = path.split('/').filter(part => part)[0];
+
+    return firstPart || null;
 }

@@ -24,7 +24,8 @@ $(() => {
 
 const config = () => {
     loadMemberList();
-    
+    $('#dt-search-0').val('');
+    $('#dt-search-0').attr('autocomplete', 'off');
 }
 
 const action = () => {
@@ -171,11 +172,26 @@ const loadMember = (mode, event) => {
     $('#divList').hide();
 }
 
-const saveMember = () => {
+const saveMember = (event) => {
     if (!memberErrorCheck()) {
         return;
     }
+    event.preventDefault();
 
+    const email = $('#txtEmail').val();
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(email)) {
+        _service.loadtoast('error', 'Email is invalid!');
+        return;
+    }
+
+    const phne = $('#txtMobileNo').val();
+    const phonePattern = /^\+?[0-9\s\-().]{7,15}$/;
+    if (!phonePattern.test(phne)) {
+        _service.loadtoast('error', 'PhoneNumber is invalid!');
+        return;
+    } 
     const file = $('#fileInput')[0].files[0];
     const formData = new FormData();
     formData.append('file', file); 
@@ -195,7 +211,14 @@ const saveMember = () => {
 
     _service.uploadapicall(_urlMemberProcess, formData).then(response => {
         if (response.status == 200) {
+            if (localStorage.getItem(`${_tenantID}_userID`) == $ ('#txtUserID').val()) {
+                _service.confirmmessage('Your current information have saved successfully and need to login again!').then(() => {
+                    location.href = `/${_tenantID}/Member/MemberLogin`;  
+                });
+            }
+            else
             _service.loadtoast('success', `Saved Successfully!`);
+           
             goBack();
         }
     });
@@ -221,6 +244,7 @@ const deleteMember = () => {
         _service.apicall(_urlMemberDelete, _model).then(response => {
             if (response.status == 200) {
                 _service.loadtoast('success', `Deleted Successfully!`);
+                
                 goBack();
             }
         });
