@@ -38,46 +38,90 @@ const action = () => {
     $('#btnDelete').on('click', deleteMember);
     $('#imgProfile').on('click', imgProfileClick);
     $('#fileInput').on('change', profileImageChange);
+    $('#checkAll').on('change', checkAllChange);
     $('#tblMember').off('click', '.table-edit').on('click', '.table-edit', (event) => loadMember('Edit', event));
   
 
 }
+const checkAllChange = () => { 
+    const isChecked =  $('#checkAll').prop('checked') ;
+    $('.row-checkbox').prop('checked', isChecked); 
+};
 const exportExcel = () => {
     let table = document.getElementById('tblMember');
-     
+
     let data = [];
-    let validColumns = [];  
-     
+    let validColumns = [];
+
     let headers = [];
     let headerRow = table.querySelectorAll('thead tr th');
     headerRow.forEach((th, colIndex) => {
         let headerText = th.innerText.trim();
         if (headerText) {
-            headers.push(headerText);  
-            validColumns.push(colIndex);  
+            headers.push(headerText);
+            validColumns.push(colIndex);
         }
-    }); 
+    });
     if (headers.length > 0) {
         data.push(headers);
     }
-     
+
     let rows = table.querySelectorAll('tbody tr');
     rows.forEach(row => {
-        let rowData = [];
-        let cells = row.querySelectorAll('td');
-        validColumns.forEach(colIndex => {
-            rowData.push(cells[colIndex]?.innerText.trim() || "");  
-        });
-        data.push(rowData);
+        let checkbox = row.querySelector('td:first-child input[type="checkbox"]');
+        if (checkbox && checkbox.checked) { // Check if the first column checkbox is checked
+            let rowData = [];
+            let cells = row.querySelectorAll('td');
+            validColumns.forEach(colIndex => {
+                rowData.push(cells[colIndex]?.innerText.trim() || "");
+            });
+            data.push(rowData);
+        }
     });
 
-     
-    let worksheet = XLSX.utils.aoa_to_sheet(data);  
+
+    let worksheet = XLSX.utils.aoa_to_sheet(data);
     let workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "UserList");
-    XLSX.writeFile(workbook, ("UserList_" + _service.getTanentID() + "_" + _service.formatteddate(new Date())).replace(' ','') + ".xlsx");
-     
+    XLSX.writeFile(workbook, ("UserList_" + _service.getTanentID() + "_" + _service.formatteddate(new Date())).replace(' ', '') + ".xlsx");
 }
+
+//const exportExcel = () => {
+//    let table = document.getElementById('tblMember');
+     
+//    let data = [];
+//    let validColumns = [];  
+     
+//    let headers = [];
+//    let headerRow = table.querySelectorAll('thead tr th');
+//    headerRow.forEach((th, colIndex) => {
+//        let headerText = th.innerText.trim();
+//        if (headerText) {
+//            headers.push(headerText);  
+//            validColumns.push(colIndex);  
+//        }
+//    }); 
+//    if (headers.length > 0) {
+//        data.push(headers);
+//    }
+     
+//    let rows = table.querySelectorAll('tbody tr');
+//    rows.forEach(row => {
+//        let rowData = [];
+//        let cells = row.querySelectorAll('td');
+//        validColumns.forEach(colIndex => {
+//            rowData.push(cells[colIndex]?.innerText.trim() || "");  
+//        });
+//        data.push(rowData);
+//    });
+
+     
+//    let worksheet = XLSX.utils.aoa_to_sheet(data);  
+//    let workbook = XLSX.utils.book_new();
+//    XLSX.utils.book_append_sheet(workbook, worksheet, "UserList");
+//    XLSX.writeFile(workbook, ("UserList_" + _service.getTanentID() + "_" + _service.formatteddate(new Date())).replace(' ','') + ".xlsx");
+     
+//}
 const goBack = () => {
     $('#divEntry').hide();
     $('#divList').show();
@@ -91,6 +135,14 @@ const loadMemberList = () => {
     };
 
     const _columns = [
+        {
+            "data": null,
+            className: "text-center align-middle",
+            render: (data, type, row, meta) => {
+                const id = `checkbox_${meta.row + 1}`;  
+                return `<input style="width="50px" class="form-check-input row-checkbox" type="checkbox" value="" id="${id}">`;
+            }
+        },
         {
             "data": null,
             className: "text-center align-middle",

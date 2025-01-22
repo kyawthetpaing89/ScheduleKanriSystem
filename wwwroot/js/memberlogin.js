@@ -1,6 +1,6 @@
 ﻿const _service = new Service();
 const _urlLoginCheck = '/api/member/logincheck';
-
+const _urlTenantCheck = '/api/tenant/tenantcheck';
 $(() => {
     config();
     action();
@@ -9,8 +9,22 @@ $(() => {
 const config = () => {
 
     const url = window.location.href;
-    const result = getFirstSectionAfterDomain(url);
-    $('#pnlCompanyName').html(result);
+    const tenantIdFromURL = getFirstSectionAfterDomain(url);
+    //$('#pnlCompanyName').html(tenantIdFromURL);
+
+
+    const _model1 = {
+        TenantID: tenantIdFromURL
+    };
+
+    axios.post(_urlTenantCheck, _model1).then(response => {
+        $('#pnlCompanyName').html(response.data.data[0].CompanyName);
+    }).catch(error => {
+        setTimeout(function () {
+            location.href = "/0/Tenant/HomePage"; 
+        }, 2000);
+        _service.loadtoast('error', `Tenant Information is incorrect!`);
+    });
 }
 
 const action = () => {
